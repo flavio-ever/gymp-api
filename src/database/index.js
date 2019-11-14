@@ -3,9 +3,10 @@ import DatabaseConfig from '../config/database';
 
 // Models
 import User from '../app/models/User';
+import Student from '../app/models/Student';
 
 // Buffer
-const models = [User];
+const models = [User, Student];
 
 class DataBase {
   constructor() {
