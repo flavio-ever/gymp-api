@@ -5,9 +5,10 @@ import DatabaseConfig from '../config/database';
 import User from '../app/models/User';
 import Student from '../app/models/Student';
 import Plan from '../app/models/Plan';
+import Enrollment from '../app/models/Enrollment';
 
 // Buffer
-const models = [User, Student, Plan];
+const models = [User, Student, Plan, Enrollment];
 
 class DataBase {
   constructor() {
@@ -19,7 +20,9 @@ class DataBase {
     this.connection = new Sequelize(DatabaseConfig);
 
     // Percorre o buffer (vetor) e acessa o método inicializador
-    models.map(model => model.init(this.connection));
+    models
+      .map(model => model.init(this.connection))
+      .map(model => model.associate && model.associate(this.connection.models));
   }
 }
 

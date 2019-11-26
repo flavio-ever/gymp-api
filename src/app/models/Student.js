@@ -9,11 +9,14 @@ class Student extends Model {
         age: Sequelize.INTEGER,
         weight: Sequelize.FLOAT,
         height: Sequelize.FLOAT,
+        canceled_at: Sequelize.DATE,
       },
       {
         sequelize,
       }
     );
+
+    return this;
   }
 }
 

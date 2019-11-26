@@ -4,23 +4,17 @@ class Plan extends Model {
   static init(sequelize) {
     super.init(
       {
-        title: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        duration: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        price: {
-          type: Sequelize.FLOAT,
-          allowNull: false,
-        },
+        title: Sequelize.STRING,
+        duration: Sequelize.INTEGER,
+        price: Sequelize.FLOAT,
+        canceled_at: Sequelize.DATE,
       },
       {
         sequelize,
       }
     );
+
+    return this;
   }
 }
 export default Plan;

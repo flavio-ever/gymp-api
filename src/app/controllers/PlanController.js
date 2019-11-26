@@ -5,8 +5,10 @@ import Plan from '../models/Plan';
 class PlanController {
   async index(req, res) {
     const plan = await Plan.findAll({
-      where: {},
-      attributes: ['title', 'duration', 'price'],
+      where: {
+        canceled_at: null,
+      },
+      attributes: ['id', 'title', 'duration', 'price'],
     });
     return res.json(plan);
   }
@@ -22,12 +24,17 @@ class PlanController {
     if (!(await schema.isValid(req.body)))
       return res.json({ error: 'Validation is fail' });
 
+    const { title, duration, price } = req.body;
+
     // Consistência da existencia;
     const planExist = await Plan.findAll({
       where: {
         title: {
-          [Op.iLike]: `%${req.body.title}%`,
+          [Op.iLike]: `%${title}%`,
         },
+        duration,
+        price,
+        canceled_at: null,
       },
     });
 
@@ -94,7 +101,9 @@ class PlanController {
       });
     }
 
-    await plan.destroy();
+    plan.canceled_at = new Date();
+
+    plan.save();
 
     return res.json(plan);
   }
