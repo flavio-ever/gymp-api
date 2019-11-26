@@ -5,6 +5,7 @@ import StudentController from './app/controllers/StudentController';
 import SessionController from './app/controllers/SessionController';
 import AuthMiddleware from './app/middlewares/auth';
 import PlansController from './app/controllers/PlanController';
+import EnrollmentController from './app/controllers/EnrollmentController';
 
 const routes = new Router();
 
@@ -21,5 +22,7 @@ routes.get('/plans', PlansController.index);
 routes.post('/plans', PlansController.store);
 routes.put('/plans/:id', PlansController.update);
 routes.delete('/plans/:id', PlansController.delete);
+
+routes.post('/enrollment', EnrollmentController.store);
 
 export default routes;

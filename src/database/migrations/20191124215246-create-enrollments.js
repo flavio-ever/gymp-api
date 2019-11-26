@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('enrollment', {
+    return queryInterface.createTable('enrollments', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -21,11 +21,11 @@ module.exports = {
         allowNull: true,
       },
       start_date: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
         allowNull: false,
       },
       end_date: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
         allowNull: false,
       },
       price: {
