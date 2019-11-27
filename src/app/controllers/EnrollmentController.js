@@ -1,12 +1,22 @@
 import * as Yup from 'yup';
 import { addMonths, parseISO } from 'date-fns';
-import Enrolment from '../models/Enrollment';
-import Students from '../models/Student';
+import Enrollment from '../models/Enrollment';
+import Student from '../models/Student';
 import Plan from '../models/Plan';
 
 class EnrollmentController {
   async store(req, res) {
-    const { student: student_id, plan: plan_id, date: start_date } = req.body;
+    const schema = Yup.object().shape({
+      student_id: Yup.number().required(),
+      plan_id: Yup.number().required(),
+      start_date: Yup.date().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { student_id, plan_id, start_date } = req.body;
 
     const plan = await Plan.findByPk(plan_id);
 
@@ -14,7 +24,7 @@ class EnrollmentController {
       return res.status(400).json({ error: 'Plan is not available' });
     }
 
-    const student = await Plan.findByPk(student_id);
+    const student = await Student.findByPk(student_id);
 
     if (!student) {
       return res.status(400).json({ error: 'Student is not available' });
@@ -22,7 +32,7 @@ class EnrollmentController {
 
     const { duration, price } = plan;
 
-    const enrolment = await Enrolment.create({
+    const enrolment = await Enrollment.create({
       student_id,
       plan_id,
       start_date,
@@ -31,6 +41,42 @@ class EnrollmentController {
     });
 
     return res.json(enrolment);
+  }
+
+  async index(req, res) {
+    const schema = Yup.object().shape({
+      page: Yup.number()
+        .positive()
+        .nullable(true)
+        .required(),
+    });
+
+    if (!(await schema.isValid(req.query))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { page = 1 } = req.query;
+
+    const enrollment = await Enrollment.findAll({
+      where: {},
+      order: ['start_date'],
+      attributes: ['id', 'start_date', 'end_date', 'price'],
+      limit: 20,
+      offset: (page - 1) * 20,
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name', 'age', 'weight', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['id', 'title', 'duration', 'price'],
+        },
+      ],
+    });
+    return res.json(enrollment);
   }
 }
 
