@@ -32,7 +32,7 @@ class EnrollmentController {
 
     const { duration, price } = plan;
 
-    const enrolment = await Enrollment.create({
+    const enrollment = await Enrollment.create({
       student_id,
       plan_id,
       start_date,
@@ -40,7 +40,7 @@ class EnrollmentController {
       price: price * duration,
     });
 
-    return res.json(enrolment);
+    return res.json(enrollment);
   }
 
   async index(req, res) {
@@ -59,8 +59,8 @@ class EnrollmentController {
 
     const enrollment = await Enrollment.findAll({
       where: {},
-      order: ['start_date'],
-      attributes: ['id', 'start_date', 'end_date', 'price'],
+      order: ['end_date'],
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
       limit: 20,
       offset: (page - 1) * 20,
       include: [
@@ -76,6 +76,42 @@ class EnrollmentController {
         },
       ],
     });
+    return res.json(enrollment);
+  }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      plan_id: Yup.number().required(),
+      start_date: Yup.date().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { plan_id, start_date } = req.body;
+
+    const plan = await Plan.findByPk(plan_id);
+
+    if (!plan) {
+      return res.status(400).json({ error: 'Plan is not available' });
+    }
+
+    const { duration, price } = plan;
+
+    const enrollment = await Enrollment.findByPk(req.params.id);
+
+    if (!enrollment) {
+      return res.status(400).json({ error: 'Enrollment is not available' });
+    }
+
+    await enrollment.update({
+      plan_id,
+      start_date,
+      end_date: addMonths(parseISO(start_date), duration),
+      price: price * duration,
+    });
+
     return res.json(enrollment);
   }
 }
