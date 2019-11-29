@@ -1,5 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
-import { isBefore, subHours } from 'date-fns';
+import { isBefore } from 'date-fns';
 
 class Enrollment extends Model {
   static init(sequelize) {
@@ -11,7 +11,7 @@ class Enrollment extends Model {
         active: {
           type: Sequelize.VIRTUAL,
           get() {
-            return isBefore(new Date(), subHours(this.end_date, 2));
+            return isBefore(new Date(), this.end_date);
           },
         },
       },
