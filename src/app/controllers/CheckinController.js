@@ -1,4 +1,4 @@
-import { differenceInCalendarDays, addDays, isAfter } from 'date-fns';
+import { addDays, isAfter } from 'date-fns';
 import Checkin from '../models/Checkin';
 
 class CheckinController {
