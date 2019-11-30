@@ -13,7 +13,7 @@ class CreateEnrollment {
 
     await Mail.sendMail({
       to: `${dataMail.student.name} <${dataMail.student.email}>`,
-      subject: 'Matricula Criada',
+      subject: 'Matrícula Criada',
       template: 'enrollment',
       context: {
         student: dataMail.student.name,

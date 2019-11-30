@@ -6,9 +6,10 @@ import User from '../app/models/User';
 import Student from '../app/models/Student';
 import Plan from '../app/models/Plan';
 import Enrollment from '../app/models/Enrollment';
+import Checkin from '../app/models/Checkin';
 
 // Buffer
-const models = [User, Student, Plan, Enrollment];
+const models = [User, Student, Plan, Enrollment, Checkin];
 
 class DataBase {
   constructor() {

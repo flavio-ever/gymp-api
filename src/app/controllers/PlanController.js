@@ -42,8 +42,9 @@ class PlanController {
       return res.status(400).json({ error: 'The plan already exists' });
     }
 
-    // Cria plano;
-    const plan = await Plan.create(req.body);
+    const { id: user_id } = req.params;
+
+    const plan = await Plan.create(user_id);
 
     return res.json(plan);
   }
