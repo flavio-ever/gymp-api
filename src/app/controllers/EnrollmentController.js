@@ -5,7 +5,7 @@ import Student from '../models/Student';
 import Plan from '../models/Plan';
 
 import Queue from '../../lib/Queue';
-import CreateEnrollment from '../jobs/CreateEnrollment';
+import EnrollmentJob from '../jobs/EnrollmentJob';
 
 class EnrollmentController {
   async store(req, res) {
@@ -59,7 +59,7 @@ class EnrollmentController {
       ],
     });
 
-    await Queue.add(CreateEnrollment.key, {
+    await Queue.add(EnrollmentJob.key, {
       dataMail,
     });
 

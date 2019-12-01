@@ -2,9 +2,9 @@ import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Mail from '../../lib/Mail';
 
-class CreateEnrollment {
+class EnrollmentJob {
   get key() {
-    return 'CreateEnrollment';
+    return 'EnrollmentJob';
   }
 
   async handle({ data }) {
@@ -38,4 +38,4 @@ class CreateEnrollment {
   }
 }
 
-export default new CreateEnrollment();
+export default new EnrollmentJob();
