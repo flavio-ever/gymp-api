@@ -36,12 +36,6 @@ class Mail {
   }
 
   sendMail(message) {
-    console.log(
-      '\n\n\naaaaaaaa\n\n\n',
-      message,
-      '\n\n\naaaaaaaa\n\n\n',
-      mailConfig
-    );
     return this.transporter.sendMail({
       ...mailConfig.default,
       ...message,

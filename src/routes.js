@@ -7,13 +7,18 @@ import AuthMiddleware from './app/middlewares/auth';
 import PlansController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinController from './app/controllers/CheckinController';
+import HelpOrderController from './app/controllers/HelpOrderController';
 
 const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
 routes.post('/users', UserController.store);
 
+routes.post('/students/:id/help-orders', HelpOrderController.store);
+
+// Rotas com Autorização
 routes.use(AuthMiddleware);
+
 routes.put('/users', UserController.update);
 
 routes.post('/students', StudentController.store);
@@ -31,5 +36,8 @@ routes.delete('/enrollment/:id', EnrollmentController.delete);
 
 routes.get('/students/:id/checkins', CheckinController.index);
 routes.post('/students/:id/checkins', CheckinController.store);
+
+routes.get('/students/:id/help-orders', HelpOrderController.index);
+routes.put('/students/:id/help-orders', HelpOrderController.update);
 
 export default routes;

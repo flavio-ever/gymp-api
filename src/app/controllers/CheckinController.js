@@ -8,15 +8,19 @@ class CheckinController {
       order: ['created_at'],
     });
 
-    const countCheckins = checkins.length;
-    const endDays = addDays(checkins[0].createdAt, 7);
-    const renewCheckin = isAfter(new Date(), endDays);
+    if (checkins.length) {
+      const countCheckins = checkins.length;
+      const endDays = addDays(checkins[0].createdAt, 7);
+      const renewCheckin = isAfter(new Date(), endDays);
 
-    return res.json({
-      countCheckins,
-      endDays,
-      renewCheckin,
-    });
+      return res.json({
+        countCheckins,
+        endDays,
+        renewCheckin,
+      });
+    }
+
+    return res.status(400).json({ error: 'Checkin is not available' });
   }
 
   async store(req, res) {
@@ -34,9 +38,9 @@ class CheckinController {
       if (countCheckins >= 5) {
         // 5 checkins durante a 7 dias corridos
         if (!renewCheckin) {
-          return res
-            .status(400)
-            .json({ error: 'Você excedeu seu limite de checkins.' });
+          return res.status(400).json({
+            error: 'You have exceeded your checkins limit',
+          });
         }
       }
     }
