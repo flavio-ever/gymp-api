@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import cors from 'cors';
 import express from 'express';
 import routes from './routes';
 import './database';
@@ -12,6 +13,11 @@ class App {
 
   middlewares() {
     this.server.use(express.json());
+    this.server.use(
+      cors({
+        // origin: 'http://endereco',
+      })
+    );
   }
 
   routes() {
