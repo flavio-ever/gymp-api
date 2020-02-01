@@ -1,2 +1,2 @@
-# gostack-gympoint-api
+# gympoint-api
 Node.js Backend for Gympoint App
