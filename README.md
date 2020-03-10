@@ -1,2 +1,2 @@
-# gympoint-api
-Node.js Backend for Gympoint App
+# gymp-api
+Node.js Backend for Gymp App
